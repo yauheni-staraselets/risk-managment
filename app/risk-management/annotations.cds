@@ -35,6 +35,11 @@ annotate service.Risks with @(
             Value : impact,
             Criticality : criticality,
         },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'RiskService.setRandomPriority',
+            Label : '{i18n>SetRandomPriority}',
+        },
     ]
 );
 annotate service.Risks with {

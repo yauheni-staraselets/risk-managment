@@ -1,6 +1,6 @@
 
 // Import the cds facade object (https://cap.cloud.sap/docs/node.js/cds-facade)
-const cds = require('@sap/cds')
+const cds = require("@sap/cds");
 
 // The service implementation with all service handlers
 module.exports = cds.service.impl(async function() {
@@ -24,13 +24,13 @@ module.exports = cds.service.impl(async function() {
 
             // set criticality for priority
             switch (risk.prio_code) {
-                case 'H':
+                case "H":
                     risk.PrioCriticality = 1;
                     break;
-                case 'M':
+                case "M":
                     risk.PrioCriticality = 2;
                     break;
-                case 'L':
+                case "L":
                     risk.PrioCriticality = 3;
                     break;
                 default:
@@ -38,5 +38,49 @@ module.exports = cds.service.impl(async function() {
             }
 
         })
-    })
-  });
+    });
+
+    this.before ("setRandomPriority", async req => {
+        const { impact } = await getRiskFromSubject(req);
+        if (impact >= 100000) {
+            req.error("IMPACT_ERROR_MESSAGE");
+        }
+    });
+
+    this.on("setRandomPriority", async (req) => {
+        const oCurrentRecord = await getRiskFromSubject(req),
+            sRandomPriority = getRandomPriority(oCurrentRecord.prio_code);
+
+        const iAffectedRowsNumber = await this.transaction(req)
+            .run(
+                UPDATE(req.subject).set({
+                    prio_code: sRandomPriority
+                })
+            );
+
+        if (iAffectedRowsNumber === 0) {
+            req.error(404, "RISK_NOT_FOUND");
+        } else {
+            return await getRiskFromSubject(req);
+        }
+    });
+
+    getRiskFromSubject = async (req) => {
+        const tx = this.transaction(req);
+        return await tx.run(
+            SELECT.one.from(req.subject)
+        );
+    };
+
+    getRandomPriority = (sCurrentPrio) => {
+        const aPriorities = ["H", "M", "L"];
+        let iNewIndex;
+        
+        do {
+            iNewIndex = Math.floor(Math.random() * aPriorities.length);
+        } while (aPriorities[iNewIndex] === sCurrentPrio);
+      
+        return aPriorities[iNewIndex];
+    };
+
+});

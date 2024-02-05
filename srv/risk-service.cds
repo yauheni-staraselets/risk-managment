@@ -3,7 +3,14 @@ using {riskmanagement as rm} from '../db/schema';
 
 @path: 'service/risk'
 service RiskService {
-    entity Risks       as projection on rm.Risks;
+    entity Risks       as projection on rm.Risks
+        actions {
+            @(
+                cds.odata.bindingparameter.name : '_it',
+                Common.SideEffects.TargetEntities : [_it.prio]
+            )
+            action setRandomPriority() returns Risks;
+        };
     annotate Risks with @cds.redirection.target;
     annotate Risks with @odata.draft.enabled;
 
