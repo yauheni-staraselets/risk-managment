@@ -3,7 +3,7 @@ using {riskmanagement as rm} from '../db/schema';
 
 @path: 'service/risk'
 service RiskService {
-    entity Risks       as projection on rm.Risks
+    entity Risks as projection on rm.Risks
         actions {
             @(
                 cds.odata.bindingparameter.name : '_it',
@@ -23,6 +23,5 @@ service RiskService {
         owner
     };
 
-    // BusinessPartner will be used later
-    //@readonly entity BusinessPartners as projection on rm.BusinessPartners;
+    @readonly entity BusinessPartners as projection on rm.BusinessPartners;
 }

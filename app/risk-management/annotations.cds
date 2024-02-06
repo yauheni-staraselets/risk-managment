@@ -40,6 +40,11 @@ annotate service.Risks with @(
             Action : 'RiskService.setRandomPriority',
             Label : '{i18n>SetRandomPriority}',
         },
+        {
+            $Type : 'UI.DataFieldForAnnotation',
+            Target : 'bp/@Communication.Contact#contact',
+            Label : '{i18n>BusinessPartner}',
+        },
     ]
 );
 annotate service.Risks with {
@@ -173,7 +178,7 @@ annotate service.Risks with @(
             },{
                 $Type : 'UI.DataField',
                 Value : descr,
-                Label : '{i18n>Description}iption',
+                Label : '{i18n>Description}',
             },{
                 $Type : 'UI.DataField',
                 Value : prio_code,
@@ -183,6 +188,11 @@ annotate service.Risks with @(
                 Value : impact,
                 Label : '{i18n>Impact}',
                 Criticality : criticality,
+            },
+            {
+                $Type : 'UI.DataFieldForAnnotation',
+                Target : 'bp/@Communication.Contact#contact1',
+                Label : '{i18n>BusinessPartner}',
             },],
     }
 );
@@ -229,3 +239,15 @@ annotate service.Risks with {
             ![@UI.TextArrangement] : #TextOnly,
         }
 };
+annotate service.BusinessPartners with @(
+    Communication.Contact #contact : {
+        $Type : 'Communication.ContactType',
+        fn : FullName,
+    }
+);
+annotate service.BusinessPartners with @(
+    Communication.Contact #contact1 : {
+        $Type : 'Communication.ContactType',
+        fn : FullName,
+    }
+);
