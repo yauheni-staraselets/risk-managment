@@ -51,6 +51,8 @@ module.exports = cds.service.impl(async function () {
          Check whether the request wants an "expand" of the business partner
          As this is not possible, the risk entity and the business partner entity are in different systems (SAP BTP and S/4 HANA Cloud), 
          if there is such an expand, remove it
+
+		 ! Проверяем есть ли экспанд на колонку bp
        */
         if (!req.query.SELECT.columns) return next();
 
@@ -76,7 +78,9 @@ module.exports = cds.service.impl(async function () {
         const asArray = x => Array.isArray(x) ? x : [x];
 
         // Request all associated BusinessPartners
+		//! берём из рисков все ID бизнес партнёров
         const bpIDs = asArray(risks).map(risk => risk.bp_BusinessPartner);
+		//! вычитываем записи из BusinessPartners по полученным IDшникам и прокидываем хэдер с ключом
         const busienssPartners = await BPsrv.transaction(req).send({
             query: SELECT.from(this.entities.BusinessPartners).where({ BusinessPartner: bpIDs }),
             headers: {
@@ -85,11 +89,13 @@ module.exports = cds.service.impl(async function () {
         });
 
         // Convert in a map for easier lookup
+		//! мапим полученные данные, ключ - id партнёра, значение - инфа о партнёре
         const bpMap = {};
         for (const businessPartner of busienssPartners)
             bpMap[businessPartner.BusinessPartner] = businessPartner;
 
         // Add BusinessPartners to result
+		//! добавляем bp в каждую запись
         for (const note of asArray(risks)) {
             note.bp = bpMap[note.bp_BusinessPartner];
         }
