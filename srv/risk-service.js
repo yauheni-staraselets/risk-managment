@@ -12,12 +12,12 @@ module.exports = cds.service.impl(async function () {
 		// Convert to array, if it's only a single risk, so that the code won't break here
 		const risks = Array.isArray(data) ? data : [data];
 
-		const tx = this.transaction(req);
-		const aMitigations = await tx.run(SELECT.from(Mitigations)),
-			sMitiID = risks[0].miti ? risks[0].miti.ID : risks[0].miti_ID,
-			oMitigationsForFirstRisk = await tx.run(
-				SELECT.from(Mitigations).where({ ID: sMitiID })
-			);
+		// const tx = this.transaction(req);
+		// const aMitigations = await tx.run(SELECT.from(Mitigations)),
+		// 	sMitiID = risks[0].miti ? risks[0].miti.ID : risks[0].miti_ID,
+		// 	oMitigationsForFirstRisk = await tx.run(
+		// 		SELECT.from(Mitigations).where({ ID: sMitiID })
+		// 	);
 
 		// Looping through the array of risks to set the virtual field 'criticality' that you defined in the schema
 		risks.forEach((risk) => {
