@@ -14,7 +14,8 @@ service RiskService @(requires: 'authenticated-user') {
                 'WRITE',
                 'UPDATE',
                 'UPSERT',
-                'DELETE'
+                'DELETE',
+                'setRandomPriority'
             ], // Allowing CDS events by explicitly mentioning them
             to   : 'RiskManager'
         }
