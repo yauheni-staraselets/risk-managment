@@ -1,4 +1,6 @@
 {
+  "xsappname": "risk-management-ea37c468trial-dev",
+  "tenant-mode" : "dedicated",
   "scopes": [
     {
       "name": "$XSAPPNAME.RiskViewer",
@@ -27,5 +29,11 @@
       ],
       "attribute-references": []
     }
-  ]
+  ],
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://**.hana.ondemand.com/login/callback",
+      "https://**.applicationstudio.cloud.sap/login/callback"
+    ]
+  }
 }

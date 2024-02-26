@@ -2,3 +2,5 @@
 package-lock.json
 .env
 /gen
+# added by cds
+.cdsrc-private.json
