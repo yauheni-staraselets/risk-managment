@@ -1,0 +1,27 @@
+<mvc:View xmlns:smarttable="sap.ui.comp.smarttable"
+    controllerName="listofrisks.controller.ListOfRisks"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <Table id="listOfRisksTable" items="{/ListOfRisks}">
+            <columns>
+                <Column id="idColumn">
+                    <Text id="idColumnText" text="{i18n>ID}" />
+                </Column>
+                <Column id="titleColumn">
+                    <Text id="titleColumnText" text="{i18n>Title}" />
+                </Column>
+                <Column id="ownerColumn">
+                    <Text id="ownerColumnText" text="{i18n>Owner}" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem id="listOfRisksColumnListItem">
+                    <Text id="idCell" text="{ID}" />
+                    <Text id="titleCell" text="{title}" />
+                    <Text id="ownerCell" text="{owner}" />
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>
