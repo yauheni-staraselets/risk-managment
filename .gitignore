@@ -4,3 +4,4 @@ package-lock.json
 /gen
 # added by cds
 .cdsrc-private.json
+core

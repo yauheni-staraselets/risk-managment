@@ -17,12 +17,16 @@
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
-    "@sap/ux-specification": "^1.120.1"
+    "@sap/ux-specification": "^1.120.1",
+    "concurrently": "^8.2.2"
   },
   "scripts": {
     "start": "cds-serve",
     "watch-risk-management": "cds watch --open risk-management/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-list-of-risks": "cds watch --open list-of-risks/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-list-of-risks": "cds watch --open list-of-risks/webapp/index.html?sap-ui-xx-viewCache=false",
+    "start:cds": "cds watch --profile hybrid",
+    "start:approuter": "cds bind --profile hybrid --exec -- npm start --prefix app",
+    "start:hybrid": "concurrently \"npm run start:cds\" \"npm run start:approuter\""
   },
   "cds": {
     "i18n": {
